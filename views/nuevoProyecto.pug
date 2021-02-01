@@ -1,0 +1,15 @@
+extends layout
+
+include mixins/formulario
+
+block contenido
+    .contenido-principal
+        h1= nombreProyecto
+
+        if errores 
+            each error in errores
+                .alerta= error.text
+
+        +formulario(proyecto)
+
+        

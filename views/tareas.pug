@@ -1,0 +1,42 @@
+extends layout
+
+block contenido
+    .contenido-principal
+        h1 #{nombreProyecto} - #{proyecto.nombre}
+
+        form.agregar-tarea(action=`/proyectos/${proyecto.url}` method="POST")
+            .campo
+                label(for="tarea") Tarea:
+                input(type="text" class="nombre-tarea" name="tarea" placeholder="Nombre tarea")
+            .campo.enviar
+                input(class="boton nueva-tarea" type="submit" value="Agregar")
+        
+        .contenedor-acciones
+            a(href=`/proyecto/editar/${proyecto.id}` class="boton") Editar proyecto
+            button(type="button" data-proyecto-url= proyecto.url class="boton eliminar" id="eliminar-proyecto") Eliminar proyecto
+
+        //- pre= vardump(tareas)
+
+        if tareas.length > 0
+            .avance
+                h2 Avance del Proyecto
+                #barra-avance.barra-avance
+                    #porcentaje.porcentaje
+
+        .listado-pendientes
+            ul
+                if tareas.length > 0
+                    each tarea in tareas
+                        li.tarea(data-tarea= tarea.id)
+                            p= tarea.tarea
+                            .acciones
+                                if(tarea.estado === 0)
+                                    i.far.fa-check-circle
+                                else
+                                    i.far.fa-check-circle.completo
+                                i.fas.fa-trash 
+                else 
+                    p No hay tareas en este proyecto
+
+        
+    script(src='/dist/bundle.js')
